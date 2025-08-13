@@ -15,7 +15,25 @@
     flex-direction: column;
     align-items: center;
   }
-  h1 { color: #82c91e; margin-bottom: 1.5rem; }
+  h1 { color: #82c91e; margin-bottom: 1rem; }
+  /* Leyenda de colores */
+  .leyenda {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .leyenda div {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+  }
+  .color-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(11, minmax(130px, 1fr));
@@ -46,29 +64,41 @@
     font-size: 0.88rem;
     text-align: center;
     position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .subject:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
   }
   .subject.locked {
     background: #555f68;
     color: #999ea6;
     cursor: not-allowed;
   }
-  .promocion {
-    background-color: #4caf50 !important;
-    color: white;
-    text-decoration: line-through;
+  .promocion { background-color: #4caf50 !important; color: white; text-decoration: line-through; }
+  .regular { background-color: #ffeb3b !important; color: #000; }
+  .libre { background-color: #e53935 !important; color: white; }
+  .curso { background-color: #03a9f4 !important; color: white; }
+
+  /* Tooltip */
+  .subject::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 105%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e2733;
+    color: #cfd8dc;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
   }
-  .regular {
-    background-color: #ffeb3b !important;
-    color: #000;
-  }
-  .libre {
-    background-color: #e53935 !important;
-    color: white;
-  }
-  .curso {
-    background-color: #03a9f4 !important;
-    color: white;
-  }
+  .subject:hover::after { opacity: 1; }
+
   /* Menú flotante */
   .menu {
     position: absolute;
@@ -88,10 +118,18 @@
 <body>
 
 <h1>Malla Interactiva - Ingeniería Civil UNC</h1>
+
+<div class="leyenda">
+  <div><div class="color-box" style="background:#4caf50;"></div>Promoción</div>
+  <div><div class="color-box" style="background:#ffeb3b;"></div>Regular</div>
+  <div><div class="color-box" style="background:#e53935;"></div>Libre</div>
+  <div><div class="color-box" style="background:#03a9f4;"></div>En curso</div>
+</div>
+
 <div class="grid" id="malla"></div>
 
 <script>
-// Lista de materias
+// --- Lista de materias (igual que tu versión) ---
 const materias = [
   { id: 'ambientacion', nombre: 'Ambientación Universitaria', semestre: 1, requisitos: [] },
   { id: 'fyq', nombre: 'Física y Química', semestre: 1, requisitos: [] },
@@ -174,9 +212,7 @@ function updateUI() {
     let faltan = [];
 
     if (mat.requierePorcentaje) {
-      if (porcentajeAprobadas() < mat.requierePorcentaje) {
-        bloqueada = true;
-      }
+      if (porcentajeAprobadas() < mat.requierePorcentaje) bloqueada = true;
     } else {
       faltan = mat.requisitos.filter(r => {
         const est = estados[r];
@@ -185,10 +221,11 @@ function updateUI() {
       if (faltan.length > 0) bloqueada = true;
     }
 
-    if (bloqueada && !estado) {
-      el.classList.add('locked');
-    }
+    if (bloqueada && !estado) el.classList.add('locked');
     if (estado) el.classList.add(estado);
+
+    // Tooltip solo con estado
+    el.dataset.tooltip = estado ? estado.charAt(0).toUpperCase() + estado.slice(1) : '';
   });
 }
 
@@ -239,3 +276,4 @@ crearMalla();
 </script>
 </body>
 </html>
+
