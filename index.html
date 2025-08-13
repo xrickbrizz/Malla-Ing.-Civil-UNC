@@ -1,135 +1,134 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<title>Malla Ingeniería Civil - UNC</title>
+<meta charset="UTF-8">
+<title>Malla Curricular - Ingeniería Civil UNC</title>
 <style>
-  * { box-sizing: border-box; }
-  body {
-    background: #121921;
-    color: #cfd8dc;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  h1 { color: #82c91e; margin-bottom: 1rem; }
-  /* Leyenda de colores */
-  .leyenda {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .leyenda div {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.9rem;
-  }
-  .color-box {
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-  }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #1e1e1e;
+        color: white;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #82c91e;
+    }
+    .leyenda {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .leyenda div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .color-box {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+    }
+    .promocion { background-color: #2ecc71; }
+    .regular { background-color: #f1c40f; }
+    .libre { background-color: #e74c3c; }
+    .curso { background-color: #3498db; }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(11, minmax(130px, 1fr));
-    gap: 0.8rem 1rem;
-    width: 100%;
-    max-width: 1600px;
-  }
-  .semester {
-    background: #1e2733;
-    border-radius: 8px;
-    padding: 0.6rem;
-    min-height: 420px;
-  }
-  .semester h2 {
-    font-size: 0.95rem;
-    color: #82c91e;
-    border-bottom: 1.5px solid #82c91e;
-    text-align: center;
-    margin-bottom: 0.8rem;
-  }
-  .subject {
-    background: #26374a;
-    margin: 0.3rem 0;
-    padding: 0.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.88rem;
-    text-align: center;
-    position: relative;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .subject:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
-  .subject.locked {
-    background: #555f68;
-    color: #999ea6;
-    cursor: not-allowed;
-  }
-  .promocion { background-color: #4caf50 !important; color: white; text-decoration: line-through; }
-  .regular { background-color: #ffeb3b !important; color: #000; }
-  .libre { background-color: #e53935 !important; color: white; }
-  .curso { background-color: #03a9f4 !important; color: white; }
-
-  /* Tooltip */
-  .subject::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 105%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1e2733;
-    color: #cfd8dc;
-    padding: 3px 6px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .subject:hover::after { opacity: 1; }
-
-  /* Menú flotante */
-  .menu {
-    position: absolute;
-    background: #1e2733;
-    border: 1px solid #555;
-    border-radius: 6px;
-    padding: 5px;
-    z-index: 100;
-  }
-  .menu div {
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  .menu div:hover { background: #3a536b; }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(11, minmax(130px, 1fr));
+        gap: 0.8rem 1rem;
+        width: 100%;
+        max-width: 1600px;
+    }
+    .semester {
+        background: #2c2c2c;
+        border-radius: 8px;
+        padding: 0.6rem;
+        min-height: 420px;
+    }
+    .semester h2 {
+        font-size: 0.95rem;
+        color: #82c91e;
+        border-bottom: 1.5px solid #82c91e;
+        text-align: center;
+        margin-bottom: 0.8rem;
+    }
+    .subject {
+        background: #26374a;
+        margin: 0.3rem 0;
+        padding: 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.88rem;
+        text-align: center;
+        position: relative;
+        transition: transform 0.2s, background-color 0.2s;
+    }
+    .subject:hover {
+        transform: scale(1.05);
+    }
+    .subject.locked {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .tooltip {
+        visibility: hidden;
+        background-color: #333;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        position: absolute;
+        bottom: 110%;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        font-size: 12px;
+        z-index: 1;
+    }
+    .subject:hover .tooltip {
+        visibility: visible;
+    }
 </style>
 </head>
 <body>
 
-<h1>Malla Interactiva - Ingeniería Civil UNC</h1>
+<h1>Malla Curricular - Ingeniería Civil UNC</h1>
 
 <div class="leyenda">
-  <div><div class="color-box" style="background:#4caf50;"></div>Promoción</div>
-  <div><div class="color-box" style="background:#ffeb3b;"></div>Regular</div>
-  <div><div class="color-box" style="background:#e53935;"></div>Libre</div>
-  <div><div class="color-box" style="background:#03a9f4;"></div>En curso</div>
+    <div><div class="color-box promocion"></div> Promoción</div>
+    <div><div class="color-box regular"></div> Regular</div>
+    <div><div class="color-box libre"></div> Libre</div>
+    <div><div class="color-box curso"></div> En curso</div>
 </div>
 
 <div class="grid" id="malla"></div>
 
 <script>
-// --- Lista de materias (igual que tu versión) ---
+// Estados y colores
+const estados = ["libre", "promocion", "regular", "curso"];
+const estadosTexto = {
+    libre: "Libre",
+    promocion: "Promoción",
+    regular: "Regular",
+    curso: "En curso"
+};
+const colores = {
+    libre: "#e74c3c",
+    promocion: "#2ecc71",
+    regular: "#f1c40f",
+    curso: "#3498db"
+};
+
+// Lista de materias (tu malla completa)
 const materias = [
   { id: 'ambientacion', nombre: 'Ambientación Universitaria', semestre: 1, requisitos: [] },
   { id: 'fyq', nombre: 'Física y Química', semestre: 1, requisitos: [] },
@@ -179,7 +178,7 @@ const materias = [
 ];
 
 const grid = document.getElementById('malla');
-const labels = ["Ingreso","1º Semestre","2º Semestre","3º Semestre","4º Semestre","5º Semestre","6º Semestre","7º Semestre","8º Semestre","9º Semestre","10º Semestre"];
+const labels = ["Ingreso","1º Semestre","2º Semestre","3º Semestre","4º Semestre","5º Semestre","6º Semestre","7º Semestre","8º Semestre","9º Semestre","10º Semestre","11º Semestre"];
 
 labels.forEach((label, i) => {
   const col = document.createElement('div');
@@ -201,31 +200,35 @@ function porcentajeAprobadas() {
   const aprobadas = Object.values(estados).filter(e => e === 'promocion' || e === 'regular').length;
   return (aprobadas / total) * 100;
 }
+
 function updateUI() {
   const estados = getEstados();
   document.querySelectorAll('.subject').forEach(el => {
-    el.className = 'subject';
     const id = el.dataset.id;
     const mat = materias.find(m => m.id === id);
-    const estado = estados[id];
+    const estado = estados[id] || "libre";
     let bloqueada = false;
-    let faltan = [];
 
     if (mat.requierePorcentaje) {
-      if (porcentajeAprobadas() < mat.requierePorcentaje) bloqueada = true;
+      if (porcentajeAprobadas() < mat.requierePorcentaje) {
+        bloqueada = true;
+      }
     } else {
-      faltan = mat.requisitos.filter(r => {
+      const faltan = mat.requisitos.filter(r => {
         const est = estados[r];
         return !(est === 'promocion' || est === 'regular');
       });
       if (faltan.length > 0) bloqueada = true;
     }
 
-    if (bloqueada && !estado) el.classList.add('locked');
-    if (estado) el.classList.add(estado);
+    el.className = 'subject';
+    el.style.backgroundColor = colores[estado];
+    if (bloqueada && estado === "libre") el.classList.add('locked');
 
-    // Tooltip solo con estado
-    el.dataset.tooltip = estado ? estado.charAt(0).toUpperCase() + estado.slice(1) : '';
+    el.innerHTML = `
+      ${mat.nombre}
+      <div class="tooltip">${estadosTexto[estado]}</div>
+    `;
   });
 }
 
@@ -233,47 +236,28 @@ function crearMalla() {
   materias.forEach(m => {
     const div = document.createElement('div');
     div.className = 'subject';
-    div.textContent = m.nombre;
     div.dataset.id = m.id;
     document.querySelector(`.semester[data-semestre='${m.semestre}']`).appendChild(div);
-  });
 
-  document.querySelectorAll('.subject').forEach(el => {
-    el.addEventListener('click', (e) => {
-      const id = el.dataset.id;
-      const mat = materias.find(m => m.id === id);
-      if (el.classList.contains('locked') && !getEstados()[id]) return;
-
-      document.querySelectorAll('.menu').forEach(m => m.remove());
-      const menu = document.createElement('div');
-      menu.className = 'menu';
-      menu.innerHTML = `
-        <div data-estado="promocion">Promoción (verde)</div>
-        <div data-estado="regular">Regular (amarillo)</div>
-        <div data-estado="libre">Libre (rojo)</div>
-        <div data-estado="curso">En curso (celeste)</div>
-      `;
-      document.body.appendChild(menu);
-      menu.style.top = e.clientY + 'px';
-      menu.style.left = e.clientX + 'px';
-
-      menu.querySelectorAll('div').forEach(opt => {
-        opt.addEventListener('click', () => {
-          const estado = opt.dataset.estado;
-          const estados = getEstados();
-          estados[id] = estado;
-          setEstados(estados);
-          menu.remove();
-          updateUI();
-        });
-      });
+    div.addEventListener('click', () => {
+      const estados = getEstados();
+      const actual = estados[m.id] || "libre";
+      const bloqueada = div.classList.contains('locked');
+      if (bloqueada) return;
+      let idx = estados.indexOf(actual);
+      idx = (idx + 1) % estados.length;
+      estados[m.id] = estados[idx];
+      setEstados(estados);
+      updateUI();
     });
   });
 
   updateUI();
 }
+
 crearMalla();
 </script>
 </body>
 </html>
+
 
