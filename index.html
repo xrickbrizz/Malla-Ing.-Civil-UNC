@@ -2,20 +2,21 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Malla Ingeniería Civil - UNC</title>
 <style>
   * { box-sizing: border-box; }
   body {
-    background: #121921;
+    background: #000000; /* Fondo negro */
     color: #cfd8dc;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 1rem 2rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  h1 { color: #82c91e; margin-bottom: 1.5rem; }
+  h1 { color: #82c91e; margin-bottom: 1.5rem; text-align: center; }
   .grid {
     display: grid;
     grid-template-columns: repeat(11, minmax(130px, 1fr));
@@ -52,23 +53,11 @@
     color: #999ea6;
     cursor: not-allowed;
   }
-  .promocion {
-    background-color: #4caf50 !important;
-    color: white;
-    text-decoration: line-through;
-  }
-  .regular {
-    background-color: #ffeb3b !important;
-    color: #000;
-  }
-  .libre {
-    background-color: #e53935 !important;
-    color: white;
-  }
-  .curso {
-    background-color: #03a9f4 !important;
-    color: white;
-  }
+  .promocion { background-color: #4caf50 !important; color: white; text-decoration: line-through; }
+  .regular { background-color: #ffeb3b !important; color: #000; }
+  .libre { background-color: #e53935 !important; color: white; }
+  .curso { background-color: #03a9f4 !important; color: white; }
+
   /* Menú flotante */
   .menu {
     position: absolute;
@@ -78,11 +67,23 @@
     padding: 5px;
     z-index: 100;
   }
-  .menu div {
-    padding: 5px 10px;
-    cursor: pointer;
-  }
+  .menu div { padding: 5px 10px; cursor: pointer; }
   .menu div:hover { background: #3a536b; }
+
+  /* --- Responsive --- */
+  @media (max-width: 1400px) {
+    .grid { grid-template-columns: repeat(6, minmax(120px, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(3, minmax(100px, 1fr)); }
+    .semester { min-height: auto; }
+    .subject { font-size: 0.8rem; padding: 0.4rem; }
+  }
+  @media (max-width: 500px) {
+    .grid { grid-template-columns: repeat(1, 1fr); }
+    .semester { min-height: auto; padding: 0.5rem; }
+    .subject { font-size: 0.75rem; padding: 0.35rem; }
+  }
 </style>
 </head>
 <body>
@@ -91,7 +92,7 @@
 <div class="grid" id="malla"></div>
 
 <script>
-// Lista de materias
+// Lista de materias (igual que tu código original)
 const materias = [
   { id: 'ambientacion', nombre: 'Ambientación Universitaria', semestre: 1, requisitos: [] },
   { id: 'fyq', nombre: 'Física y Química', semestre: 1, requisitos: [] },
@@ -151,12 +152,9 @@ labels.forEach((label, i) => {
   grid.appendChild(col);
 });
 
-function getEstados() {
-  return JSON.parse(localStorage.getItem('estadosMaterias') || '{}');
-}
-function setEstados(estados) {
-  localStorage.setItem('estadosMaterias', JSON.stringify(estados));
-}
+// Funciones para guardar y actualizar estados
+function getEstados() { return JSON.parse(localStorage.getItem('estadosMaterias') || '{}'); }
+function setEstados(estados) { localStorage.setItem('estadosMaterias', JSON.stringify(estados)); }
 function porcentajeAprobadas() {
   const estados = getEstados();
   const total = materias.filter(m => m.id !== 'practica').length;
@@ -174,9 +172,7 @@ function updateUI() {
     let faltan = [];
 
     if (mat.requierePorcentaje) {
-      if (porcentajeAprobadas() < mat.requierePorcentaje) {
-        bloqueada = true;
-      }
+      if (porcentajeAprobadas() < mat.requierePorcentaje) bloqueada = true;
     } else {
       faltan = mat.requisitos.filter(r => {
         const est = estados[r];
@@ -184,14 +180,12 @@ function updateUI() {
       });
       if (faltan.length > 0) bloqueada = true;
     }
-
-    if (bloqueada && !estado) {
-      el.classList.add('locked');
-    }
+    if (bloqueada && !estado) el.classList.add('locked');
     if (estado) el.classList.add(estado);
   });
 }
 
+// Crear materias en la grilla
 function crearMalla() {
   materias.forEach(m => {
     const div = document.createElement('div');
@@ -239,4 +233,5 @@ crearMalla();
 </script>
 </body>
 </html>
+
 
